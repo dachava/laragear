@@ -83,5 +83,10 @@ class ListingController extends Controller
         return back()->with('message', 'Your gear was updated!');
     }
 
+    //Delete item
+    public function destroy(Listing $listing){
+        $listing->delete();
+        return redirect('/')->with('message', 'The post was deleted');
+    }
 
 }

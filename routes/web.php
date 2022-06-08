@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\ListingController;
-use Illuminate\Support\Facades\Route;
 use App\Models\Listing;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ListingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,25 @@ Route::get('/listings/{listing}/edit', [ListingController::class, 'edit']);
 //Update edited data
 Route::put('/listings/{listing}', [ListingController::class, 'update']);
 
+//Delete
+Route::delete('/listings/{listing}', [ListingController::class, 'destroy']);
 
 //Single Listing
 Route::get('/listings/{listing}', [ListingController::class, 'show']);
+
+
+//Show register
+Route::get('/register', [UserController::class, 'create']);
+
+//Create New User
+Route::post('/users', [UserController::class, 'store']);
+
+
+//Logout
+Route::post('/logout', [UserController::class, 'logout']);
+
+//Show login form
+Route::get('/login', [UserController::class, 'login']);
+
+//Login User
+Route::post('/users/authenticate', [UserController::class, 'authenticate']);
