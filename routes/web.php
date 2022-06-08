@@ -20,40 +20,44 @@ use App\Http\Controllers\ListingController;
 //Aqui se llaman los metodos de ese controller
 
 //Show create form
-Route::get('/listings/create', [ListingController::class, 'create']);
+//Usa el middleware auth para requerir el login si no esta autenticado
+//Se debe nombrar la ruta a login, como mas abajo se hace
+Route::get('/listings/create', [ListingController::class, 'create'])->middleware('auth');
 
 //ALL LISTINGS
 Route::get('/', [ListingController::class, 'index']);
 
 
 //Store listing data in create
-Route::post('/listings', [ListingController::class, 'store']);
+Route::post('/listings', [ListingController::class, 'store'])->middleware('auth');
 
 //Show edit form
-Route::get('/listings/{listing}/edit', [ListingController::class, 'edit']);
+Route::get('/listings/{listing}/edit', [ListingController::class, 'edit'])->middleware('auth');
 
 //Update edited data
-Route::put('/listings/{listing}', [ListingController::class, 'update']);
+Route::put('/listings/{listing}', [ListingController::class, 'update'])->middleware('auth');
 
 //Delete
-Route::delete('/listings/{listing}', [ListingController::class, 'destroy']);
+Route::delete('/listings/{listing}', [ListingController::class, 'destroy'])->middleware('auth');
 
 //Single Listing
 Route::get('/listings/{listing}', [ListingController::class, 'show']);
 
 
 //Show register
-Route::get('/register', [UserController::class, 'create']);
+//Middleware guest para no permitir acceder al register form una vez logueado
+Route::get('/register', [UserController::class, 'create'])->middleware('guest');
 
 //Create New User
 Route::post('/users', [UserController::class, 'store']);
 
 
 //Logout
-Route::post('/logout', [UserController::class, 'logout']);
+Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
 
 //Show login form
-Route::get('/login', [UserController::class, 'login']);
+//La ruta tiene nombre login para que el middleware auth la reconozca
+Route::get('/login', [UserController::class, 'login'])->name('login')->middleware('guest');
 
 //Login User
 Route::post('/users/authenticate', [UserController::class, 'authenticate']);
